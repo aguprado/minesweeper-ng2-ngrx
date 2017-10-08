@@ -132,6 +132,15 @@ export function reducer(state: AppState = initialState, action: Action) {
                 seconds: state.status,
                 created: state.created
             };
+        case LOAD_GAME_COMPLETE:
+            //here the game was successfully loaded from server and we set the new state acording to the data
+            //we create a new grid from the data returned by endpoint and set the other primitives values too
+            return {
+                grid: new Grid(action.payload.grid),
+                status: action.payload.status,
+                seconds: action.payload.seconds,
+                created: action.payload.created
+            };
         default:
 			return state;
 	}

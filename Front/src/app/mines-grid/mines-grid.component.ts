@@ -50,4 +50,9 @@ export class MinesGridComponent implements OnInit{
     return false;
   }
 
+  saveGame = () => { 
+    this.apiService.saveGame({grid: this.grid, status: this.status, seconds: this.seconds, created: this.created})
+    .then((response) => {});
+  }
+  
 }

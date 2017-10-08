@@ -13,7 +13,7 @@ export class Cell {
         this.row = data.row; 
         this.column = data.column;
         this.mined = data.mined; 
-        this.flag = false;
+        this.flag = data.flag;
         this.color = data.color;
         this.minedNeighbors = data.minedNeighbors || 0;
         this.status = data.status;

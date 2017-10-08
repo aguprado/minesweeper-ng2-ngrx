@@ -21,7 +21,7 @@ export class ApiService {
         });
         let options = new RequestOptions({headers: headers});
         let body = JSON.stringify(game);
-        let url = 'http://localhost:8080/game';
+        let url = 'http://52.67.131.86:8080/game';
         return this.http.post(url, body, options).toPromise()
             .then(response => {
                 return response.json();
@@ -38,7 +38,7 @@ export class ApiService {
             headers: headers
         });
 
-        let url = 'http://localhost:8080/game?id='+id;
+        let url = 'http://52.67.131.86:8080/game?id='+id;
         return this.http.delete(url, options).toPromise()
             .then(response => {
                 return response.json();
@@ -54,7 +54,7 @@ export class ApiService {
             headers: headers
         });
 
-        let url = 'http://localhost:8080/games';
+        let url = 'http://52.67.131.86:8080/games';
         return this.http.get(url, options).toPromise()
             .then(response => {
                 return response.json();
@@ -70,7 +70,7 @@ export class ApiService {
             headers: headers
         });
 
-        let url = 'http://localhost:8080/game?id='+id;
+        let url = 'http://52.67.131.86:8080/game?id='+id;
         return this.http.get(url, options)
             .toPromise().then(response => {
                 return response.json();

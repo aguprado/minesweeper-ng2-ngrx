@@ -30,25 +30,25 @@ export class AppComponent {
     this.store.dispatch(new StartGameAction({ grid: grid, status: 1, seconds: 0, created: new Date().getTime() }));
   };
   
-    // dispaches the load game action, this is handled in the reducer cos changes the app state
-    loadGame = (id) => { this.store.dispatch(new LoadGameAction(id)) };
+  // dispaches the load game action, this is handled in the reducer cos changes the app state
+  loadGame = (id) => { this.store.dispatch(new LoadGameAction(id)) };
+
+  // deletes a game from the saved game list, this is not handled in the reducers cos does not affect app state
+  deleteGame = (id) => { 
+    this.apiService.deleteGame(id)
+    .then((response) => {
+      this.games.splice(this.games.findIndex(x =>{ return x._id == id}),1);
+    });
+  };
   
-    // deletes a game from the saved game list, this is not handled in the reducers cos does not affect app state
-    deleteGame = (id) => { 
-      this.apiService.deleteGame(id)
-      .then((response) => {
-        this.games.splice(this.games.findIndex(x =>{ return x._id == id}),1);
-      });
+  // shows the saved game list, this is not handled in the reducers cos does not affect app state
+  showGames = () => { 
+    this.apiService.showGames()
+    .then((response) => {
+      this.games = response;
+    });
     };
-    
-    // shows the saved game list, this is not handled in the reducers cos does not affect app state
-    showGames = () => { 
-      this.apiService.showGames()
-      .then((response) => {
-        this.games = response;
-      });
-     };
-    
-    toUTCString = (time) => { return new Date(time).toUTCString() };
+  
+  toUTCString = (time) => { return new Date(time).toUTCString() };
 
 }

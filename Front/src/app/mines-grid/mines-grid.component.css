@@ -33,6 +33,7 @@
     width: 34px; 
     height:34px;
     line-height: 33px;    
+    font-weight: 700;
     background: rgba(112, 128, 144, 0.2);
     cursor: pointer;
     border: 1px solid #eee;
