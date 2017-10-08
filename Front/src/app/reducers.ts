@@ -18,9 +18,26 @@ const initialState: AppState = {
     created: 0
 };
 
+//defines the constants of possible actions to dispatch
+const START_GAME = 'START_GAME';
+
+//defines and exports the actions of possible actions to dispatch
+export class StartGameAction implements Action {
+    readonly type = START_GAME;
+    constructor(public payload: any) { }
+}
+
 //here we do most of the logic handling thea app state
 export function reducer(state: AppState = initialState, action: Action) {
-	switch (action.type) {
+	switch (action.type) {        
+        //when starting the game we set the next state by all the parameters sent in action payload
+        case START_GAME:
+            return {
+                grid: action.payload.grid,
+                status: action.payload.status,
+                seconds: action.payload.status,
+                created: action.payload.created
+            };
         default:
 			return state;
 	}
