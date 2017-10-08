@@ -8,38 +8,28 @@ import { AppState } from '../reducers';
 @Injectable()
 export class ApiService {
 
-    search: string;
-    pageSize: number;
-    currentPage: number;
-
+    apiUrl = 'http://52.67.131.86:8080';
     constructor(private http: Http) {}
     
+    options = () => {
+        let headers = new Headers({'Content-Type': 'application/json'});
+        return new RequestOptions({headers: headers});
+    }
+
     // sends the current state to the api by post
     saveGame(game:AppState): Promise<any> {
-        let headers = new Headers({
-            'Content-Type': 'application/json'
-        });
-        let options = new RequestOptions({headers: headers});
         let body = JSON.stringify(game);
-        let url = 'http://52.67.131.86:8080/game';
-        return this.http.post(url, body, options).toPromise()
+        let url = this.apiUrl+'/game';
+        return this.http.post(url, body, this.options()).toPromise()
             .then(response => {
                 return response.json();
             }).catch(this.handleError);
-        
     }
 
     //deletes the game by id from the database
     deleteGame(id): Promise<any> {
-        let headers = new Headers({
-            'Content-Type': 'application/json'
-        });
-        let options = new RequestOptions({
-            headers: headers
-        });
-
-        let url = 'http://52.67.131.86:8080/game?id='+id;
-        return this.http.delete(url, options).toPromise()
+        let url = this.apiUrl+'/game?id='+id;
+        return this.http.delete(url, this.options()).toPromise()
             .then(response => {
                 return response.json();
             }).catch(this.handleError);
@@ -47,15 +37,8 @@ export class ApiService {
 
     //list all the games in the database
     showGames(): Promise<any> {
-        let headers = new Headers({
-            'Content-Type': 'application/json'
-        });
-        let options = new RequestOptions({
-            headers: headers
-        });
-
-        let url = 'http://52.67.131.86:8080/games';
-        return this.http.get(url, options).toPromise()
+        let url = this.apiUrl+'/games';
+        return this.http.get(url, this.options()).toPromise()
             .then(response => {
                 return response.json();
             }).catch(this.handleError);
@@ -63,15 +46,8 @@ export class ApiService {
         
     //fetches the game by id from the database
     loadGame(id: string): Promise<any> {
-        let headers = new Headers({
-            'Content-Type': 'application/json'
-        });
-        let options = new RequestOptions({
-            headers: headers
-        });
-
-        let url = 'http://52.67.131.86:8080/game?id='+id;
-        return this.http.get(url, options)
+        let url = this.apiUrl+'/game?id='+id;
+        return this.http.get(url, this.options())
             .toPromise().then(response => {
                 return response.json();
             }).catch(this.handleError);

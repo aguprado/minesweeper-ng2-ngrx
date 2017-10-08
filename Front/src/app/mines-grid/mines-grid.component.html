@@ -3,7 +3,7 @@
     <div class="grid no-padding" [ngStyle]="{'width': (grid.columns*34+4)+'px','height': (grid.rows*34+49)+'px'}">
         <div class="col-xs-12 no-padding game-info">
         <div class="col-xs-4 pull-left text-center">{{grid.mines}}</div>
-        <div class="col-xs-4 fa-container"><i class="fa fa-smile-o" aria-hidden="true"></i></div>
+        <div class="col-xs-4 no-padding fa-container"><i class="fa fa-smile-o" aria-hidden="true"></i></div>
         <div class="col-xs-4 pull-right text-center">{{seconds}}</div>
         </div>
         <div *ngFor="let cell of grid.cells;" class="cell" [ngClass]="{'open': cell.status}" (contextmenu)="onCellRightClick(cell)" (click)="onCellClick(cell)" [ngStyle]="{'order': cell.row}">

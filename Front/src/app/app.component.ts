@@ -25,6 +25,12 @@ export class AppComponent {
   mines: number = 10; //mines in the grid
   
   startGame = () => {
+    // if mines < this.rows*this.columns, set it to this.rows*this.columns
+    if (this.mines > this.rows*this.columns) { return this.mines = this.rows*this.columns };
+    //if rows || columns < 5, set them to 5
+    if (this.rows < 5) { this.rows = 5 };
+    if (this.columns < 5) { this.columns = 5 };
+    
     //create new grid and dispatch StartGameAction
     let grid = new Grid({rows: this.rows, columns: this.columns, mines: this.mines});
     this.store.dispatch(new StartGameAction({ grid: grid, status: 1, seconds: 0, created: new Date().getTime() }));

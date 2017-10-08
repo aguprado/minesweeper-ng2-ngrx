@@ -27,12 +27,13 @@ export class Grid {
                 return new Cell(cell);
             });
         } else {
-            let toMine = this.setMines();
             for (let row = 0; row < this.rows; row++) {
-                for (let column = 0; column < this.rows; column++) {
-                    toMine.find(x => {return x.row == row && x.column == column}) ? this.cells.push(new Cell({row: row, column: column, mined: true})) : this.cells.push(new Cell({row: row, column: column, mined: false}));
+                for (let column = 0; column < this.columns; column++) {
+                    this.cells.push(new Cell({row: row, column: column, mined: false}))
                 }
             }
+            //set the mines in the grid
+            this.setMines();
             //set the quantity of mines neighbors for each cell in the grid
             this.setNeighbors();
         }
@@ -40,15 +41,13 @@ export class Grid {
 
     //place the <this.mines> mines into random cells
     private setMines = () => {
-        let toMine = [];
-        while (toMine.length != this.mines) {
+        let placed = this.mines;
+        while (placed > 0) {
             let row = Math.floor(Math.random() * this.rows);
             let column =  Math.floor(Math.random() * this.columns);
-            if (!toMine.find(x => {return x.row == row && x.col == column})) {
-                toMine.push({row: row, column:column});
-            }
+            let cell = this.cells.find(x => {return x.row == row && x.column == column});
+            if (!cell.mined) {cell.mined = true; placed -= 1}
         }
-        return toMine;
     }
 
     //set the quantity of mines neighbors for each cell in the grid
