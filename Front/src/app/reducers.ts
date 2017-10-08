@@ -22,6 +22,8 @@ const initialState: AppState = {
 const START_GAME = 'START_GAME';
 const OPEN_CELL = 'OPEN_CELL';
 const RIGHT_CLICK_CELL = 'RIGHT_CLICK_CELL';
+const LOAD_GAME = 'LOAD_GAME';
+const LOAD_GAME_COMPLETE = 'LOAD_GAME_COMPLETE';
 
 //defines and exports the actions of possible actions to dispatch
 export class StartGameAction implements Action {
@@ -37,6 +39,16 @@ export class OpenCellAction implements Action {
 export class RightClickCellAction implements Action {
     readonly type = RIGHT_CLICK_CELL;
     constructor(public payload: Cell) { }
+}
+
+export class LoadGameAction implements Action {
+    readonly type = LOAD_GAME;
+    constructor(public payload: any) { }
+}
+
+export class LoadGameCompleteAction implements Action {
+    readonly type = LOAD_GAME_COMPLETE;
+    constructor(public payload: any) { }
 }
 
 //here we do most of the logic handling thea app state
