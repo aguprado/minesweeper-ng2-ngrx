@@ -21,6 +21,7 @@ const initialState: AppState = {
 //defines the constants of possible actions to dispatch
 const START_GAME = 'START_GAME';
 const OPEN_CELL = 'OPEN_CELL';
+const RIGHT_CLICK_CELL = 'RIGHT_CLICK_CELL';
 
 //defines and exports the actions of possible actions to dispatch
 export class StartGameAction implements Action {
@@ -30,6 +31,11 @@ export class StartGameAction implements Action {
 
 export class OpenCellAction implements Action {
     readonly type = OPEN_CELL;
+    constructor(public payload: Cell) { }
+}
+
+export class RightClickCellAction implements Action {
+    readonly type = RIGHT_CLICK_CELL;
     constructor(public payload: Cell) { }
 }
 
@@ -69,7 +75,7 @@ export function reducer(state: AppState = initialState, action: Action) {
                 if (grid.cells.filter(x =>{ return x.status == true}).length === grid.rows*grid.columns-grid.mines) {
                     status = 2;
                     //here we set all the mines to green because the game is won
-                    this.grid.cells.filter(x => { return x.mined }).map(x => {
+                    grid.cells.filter(x => { return x.mined }).map(x => {
                         x.status = true; x.color = 'green'; return x;
                     });
                 }
@@ -89,7 +95,7 @@ export function reducer(state: AppState = initialState, action: Action) {
             if (grid.cells.filter(x =>{ return x.status == true}).length == grid.rows*grid.columns-grid.mines) {
                 status = 2;
                 //here we set all the mines to green because the game is won
-                this.grid.cells.filter(x => { return x.mined }).map(x => {
+                grid.cells.filter(x => { return x.mined }).map(x => {
                     x.status = true; x.color = 'green'; return x;
                 });
             }
@@ -98,6 +104,20 @@ export function reducer(state: AppState = initialState, action: Action) {
                 grid: grid,
                 status: status,
                 seconds: state.seconds,
+                created: state.created
+            };
+        //when right clicking a cell we set it to flag mode or take flag away if already activated
+        //and set the mines counter according
+        case RIGHT_CLICK_CELL:
+            //Clone the grid cos we will modify it, so we leave current state immutable
+            grid = Object.assign({}, state.grid);
+            cell = grid.cells.find(x => {return x.row === action.payload.row && x.column === action.payload.column});
+            cell.flag ? grid.mines += 1 : grid.mines -= 1;
+            cell.flag = !cell.flag;
+            return {
+                grid: grid,
+                status: state.status,
+                seconds: state.status,
                 created: state.created
             };
         default:
