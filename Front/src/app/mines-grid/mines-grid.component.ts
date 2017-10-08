@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../reducers';
+import { AppState, OpenCellAction } from '../reducers';
 import { Grid } from '../models/grid';
 import { Cell } from '../models/cell';
 import { ApiService } from '../services/apiService';
@@ -33,6 +33,13 @@ export class MinesGridComponent implements OnInit{
       if (status == 1) { this.interval = setInterval(() => { this.seconds += 1 }, 1000) }
       else { clearInterval(this.interval) };
     });
+  }
+
+  onCellClick = (cell:Cell) => {
+    //if cell is open or game is finished we do nothing
+    if (cell.flag || cell.status || this.status != 1) { return };
+    //dispatch the OpenCellAction
+    return this.store.dispatch(new OpenCellAction(cell));
   }
 
 }

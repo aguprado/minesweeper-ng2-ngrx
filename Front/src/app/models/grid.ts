@@ -14,6 +14,11 @@ export class Grid {
         this.setCells();
     }
 
+    //open all the mined cells in the grid
+    openMines = () => {
+        this.cells.filter(x => {return x.mined == true}).map(x => x.status = true);
+    }
+
     //creates cells and sets mines
     private setCells = () => {
         if (this.cells.length) {

@@ -18,7 +18,24 @@ export class Cell {
         this.minedNeighbors = data.minedNeighbors || 0;
         this.status = data.status;
     }
+
+    //returns Cell[] set of neighbors
+    getNeighbors = (cells:Cell[]) => { return cells.filter(x => {return this.isNeighbor(x)}) };
     
+        //open the cell's neighbors and moves on recursively if the neighbor has no mined neighbors 
+        openNeighbors = (cells:Cell[]) => {
+            if (this.status == true || this.mined ) { return };
+            this.status = true;
+            this.getNeighbors(cells).filter(x => {return !x.status}).forEach(neighbor => {
+                if (neighbor.flag) { return };
+                if (neighbor.minedNeighbors > 0) { return neighbor.status = true };
+                return neighbor.openNeighbors(cells);
+            });
+        };
+        
+    //opens the cell
+    open = () => { this.status = true };
+
     //sets cell color according with minedNeighbors quantity 
     setColor = () => { 
         switch (this.minedNeighbors) {
