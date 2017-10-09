@@ -101,41 +101,6 @@ window.onload = function() {
           "http"
       ],
       "paths": {
-        "http://52.67.131.86:8080/game/{gameId}": {
-          "get": {
-            "tags": [
-                "Games"
-            ],
-            "summary": "Finds game by id",
-            "description": "Returns a single game",
-            "operationId": "getGame",
-            "produces": [
-                "application/json"
-            ],
-            "parameters": [
-                {
-                    "name": "id",
-                    "in": "query",
-                    "description": "Id of the game to return",
-                    "required": true,
-                    "type": "string"
-                }
-            ],
-            "responses": {
-                "200": {
-                    "description": "Successful Operation",
-                    "schema": {
-                        "type": "object",
-                        "$ref": "#/definitions/Game"
-                    }
-                },
-                "500": {
-                    "description": "Invalid status value"
-                }
-            },
-            "security": []
-        },
-        },
           "http://52.67.131.86:8080/games": {
             "get": {
               "tags": [
@@ -164,6 +129,70 @@ window.onload = function() {
               "security": []
           },
         },
+        "http://52.67.131.86:8080/game/{gameId}": {
+            "get": {
+                "tags": [
+                    "Games"
+                ],
+                "summary": "Finds game by id",
+                "description": "Returns a single game",
+                "operationId": "getGame",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Id of the game to return",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation",
+                        "schema": {
+                            "type": "object",
+                            "$ref": "#/definitions/Game"
+                        }
+                    },
+                    "500": {
+                        "description": "Invalid status value"
+                    }
+                },
+                "security": []
+            },            
+            "delete": {
+                "tags": [
+                    "Games"
+                ],
+                "summary": "Deletes game by id",
+                "description": "Deletes a single game",
+                "operationId": "deleteGame",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Id of the game to delete",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Operation"
+                    },
+                    "500": {
+                        "description": "Invalid status value"
+                    }
+                },
+                "security": []
+            },
+        },
         "http://52.67.131.86:8080/game": {
           "post": {
               "tags": [
@@ -181,7 +210,7 @@ window.onload = function() {
                   {
                       "name": "grid",
                       "in": "formData",
-                      "description": "Grid of game that needs to be persisted",
+                      "description": "Grid object of the game that needs to be persisted",
                       "required": true,
                       "type": "object",
                       "format": "json"
@@ -225,26 +254,88 @@ window.onload = function() {
           "required": [
           ],
           "properties": {
-              "grid": {
-                  "type": "object",
-                  "format": "json"
-              },
-              "status": {
-                  "type": "number",
-                  "format": "integer"
-              },
-              "seconds": {
-                  "type": "number",
-                  "format": "integer"
-              },
-              "created": {
-                  "type": "number",
-                  "format": "integer"
-              },
-          },
-          "json": {
-              "name": "Game"
-          }
+                "grid": {
+                    "type": "object",
+                    "$ref": "#/definitions/Grid"
+                },
+                "status": {
+                    "type": "number",
+                    "format": "integer"
+                },
+                "seconds": {
+                    "type": "number",
+                    "format": "integer"
+                },
+                "created": {
+                    "type": "number",
+                    "format": "integer"
+                },
+            },
+            "json": {
+                "name": "Game"
+            }
+        },
+        "Grid": {
+          "type": "object",
+          "required": [
+          ],
+          "properties": {
+                "cells": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Cell"
+                    }
+                },
+                "mines": {
+                    "type": "number",
+                    "format": "integer"
+                },
+                "rows": {
+                    "type": "number",
+                    "format": "integer"
+                },
+                "columns": {
+                    "type": "number",
+                    "format": "integer"
+                },
+            },
+            "json": {
+                "name": "Grid"
+            }
+        },
+        "Cell": {
+          "type": "object",
+          "required": [
+          ],
+          "properties": {
+                "mined": {
+                    "type": "boolean"
+                },
+                "flag": {
+                    "type": "boolean"
+                },
+                "status": {
+                    "type": "boolean"
+                },
+                "color": {
+                    "type": "string"
+                },
+                "minedNeighbors": {
+                    "type": "number",
+                    "format": "integer"
+                },
+                "row": {
+                    "type": "number",
+                    "format": "integer"
+                },
+                "column": {
+                    "type": "number",
+                    "format": "integer"
+                },
+            },
+            "json": {
+                "name": "Cell"
+            }
         }
       }
   };
