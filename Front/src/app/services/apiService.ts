@@ -8,7 +8,7 @@ import { AppState } from '../reducers';
 @Injectable()
 export class ApiService {
 
-    apiUrl = 'http://52.67.131.86:8080';
+    apiUrl = 'http://52.67.131.86:8085';
     constructor(private http: Http) {}
     
     options = () => {

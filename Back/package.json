@@ -4,9 +4,11 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "express": "*",
-    "mongoose": "*",
     "body-parser": "*",
+    "express": "*",
+    "fs": "0.0.1-security",
+    "https": "^1.0.0",
+    "mongoose": "*",
     "url": "*"
   }
 }

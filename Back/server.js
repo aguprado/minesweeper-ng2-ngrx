@@ -1,12 +1,14 @@
 // Load required packages
-var express 			= require('express');
-var mongoose 			= require('mongoose');
-var bodyParser 			= require('body-parser');
-var url                 = require('url');
+const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const url = require('url');
+const fs = require('fs')
+const https = require('https')
 
 //connect to db
 mongoose.connect('mongodb://localhost/Mineswepper');
-var app = express();
+const app = express();
 app.use(bodyParser.json({}));
 
 //set cors permissions
@@ -18,10 +20,10 @@ app.all('*', function(req, res, next) {
 	next();
 });
 
-var Game = require('./game');
+const Game = require('./game');
 
 // Create our Express router
-var router = express.Router();
+const router = express.Router();
 
 //endpoint to get a game by id from db
 router.route('/game')
@@ -81,7 +83,10 @@ router.route('/game')
 //register router
 app.use(router);
 
-var server = app.listen(8080, function(){
-    console.log('Server is listening on port '+server.address().port);
+https.createServer({
+    key: fs.readFileSync('../cert/privatekey.pem'),
+    cert: fs.readFileSync('../cert/server.crt')
+  }, app).listen(443, function() {
+    console.log('Server is listening on port 443');
 });
 
